@@ -6,6 +6,7 @@ import ch.heig.gre.graph.PositiveWeightFunction;
 import ch.heig.gre.graph.VertexLabelling;
 import ch.heig.gre.maze.MazeSolver;
 import ch.heig.gre.maze.Metadata;
+import com.sun.tools.jconsole.JConsoleContext;
 
 import java.util.*;
 
@@ -22,8 +23,17 @@ public final class AStar implements MazeSolver {
   public static int[] getCord(int source, int gridWidth){
     int[] result = new int[2];
     result[0] = source%gridWidth;
-    result[1] = (source-result[0])/gridWidth;
+    result[1] = (int)((source) / gridWidth);
+    System.out.println(result[0]+", "+result[1]);
     return result;
+  }
+
+  public static int[] getCordDelta(int source, int target, int gridWidth){
+    int[] sourceCords = AStar.getCord(source,gridWidth);
+    int[] targetCords = AStar.getCord(target,gridWidth);
+    targetCords[0]-=sourceCords[0];
+    targetCords[1]-=sourceCords[1];
+    return targetCords;
   }
 
   public enum Heuristic {
@@ -36,23 +46,29 @@ public final class AStar implements MazeSolver {
     INFINITY_NORM{
       @Override
       int calc(int source, int target, GridGraph2D grid,double k) {
-        int[] sourceCords = AStar.getCord(source,grid.width());
-        int[] targetCords = AStar.getCord(source,grid.width());
+        int[] cordDelta = AStar.getCordDelta(source,target,grid.width());
         return Math.max(
-                Math.abs(sourceCords[0]-targetCords[0]),Math.abs(sourceCords[1]-targetCords[1])
+                Math.abs(cordDelta[0]),Math.abs(cordDelta[1])
         );
       }
     },
     EUCLIDEAN_NORM{
       @Override
       int calc(int source, int target, GridGraph2D grid,double k) {
-        return 0;
+        int[] cordDelta = AStar.getCordDelta(source,target,grid.width());
+        return (int)Math.round(
+            Math.sqrt(
+                    Math.pow(cordDelta[0],2) +
+                            Math.pow(cordDelta[1],2)
+            )
+        );
       }
     },
     MANHATTAN{
       @Override
       int calc(int source, int target, GridGraph2D grid,double k) {
-        return 0;
+        int[] cordDelta = AStar.getCordDelta(source,target,grid.width());
+        return (cordDelta[0]) + (cordDelta[1]);
       }
     },
     K_MANHATTAN{
@@ -136,7 +152,7 @@ public final class AStar implements MazeSolver {
         if(v_distance[other] > (v_distance[actualVertex] + c)){
           if(v_distance[other]==Integer.MAX_VALUE){
             // cal heristic
-            v_heristic[other]=this.heuristic.calc(actualVertex,other,grid,this.kManhattan);
+            v_heristic[other]=this.heuristic.calc(other,destination,grid,this.kManhattan);
           }
           v_distance[other] = v_distance[actualVertex] + c;
           v_pred[other] = actualVertex;
@@ -149,6 +165,9 @@ public final class AStar implements MazeSolver {
           }
           v_inQueue[other]=true;
           priorityQueue.add(other);
+          if(priorityQueue.size()==6){
+            System.out.println("test");
+          }
         }
       }
     }
