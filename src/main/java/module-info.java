@@ -3,6 +3,7 @@ module ch.heig.gre {
   requires javafx.fxml;
   requires javafx.graphics;
     requires jdk.jconsole;
+    requires jdk.security.jgss;
 
     opens ch.heig.gre.gui to javafx.fxml;
   opens ch.heig.gre.groupD to javafx.graphics;
