@@ -11,6 +11,7 @@ import ch.heig.gre.maze.MazeSolver;
 import ch.heig.gre.maze.impl.GridMazeBuilder;
 import ch.heig.gre.maze.impl.MazeTuner;
 import ch.heig.gre.maze.impl.ShenaniganWeightFunction;
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.random.RandomGenerator;
@@ -94,7 +95,8 @@ public final class Experiment {
         // TODO
         MazeGenerator DFS = new DfsGenerator();
         RandomGenerator rng = new Random(1234); // seeded so that tests are deterministic
-        ArrayList<AStar> aStars = new ArrayList<>(AStar.Heuristic.values().length);
+        ArrayList<AStar> aStarsAdmissible = new ArrayList<>(AStar.Heuristic.values().length);
+        ArrayList<AStar> aStarsKManhattans = new ArrayList<>(K_MANHATTANS.length);
         VertexLabelling<Integer> mockView = new VertexLabelling<Integer>() {
             @Override
             public Integer getLabel(int v) {
@@ -106,41 +108,77 @@ public final class Experiment {
             }
         };
         for (int i = 0; i < 4; i++) { // adds the first 4 heuristics
-            aStars.add(new AStar(AStar.Heuristic.values()[i]));
+            aStarsAdmissible.add(new AStar(AStar.Heuristic.values()[i]));
         }
         for (double mult : K_MANHATTANS) { // adds different versions of k-manhattan
-            aStars.add(new AStar(AStar.Heuristic.K_MANHATTAN, mult));
+            aStarsKManhattans.add(new AStar(AStar.Heuristic.K_MANHATTAN, mult));
         }
-        //storage for results might print right away maybe?
-        ArrayList<ArrayList<Double>> allAvgLengths = new ArrayList<>(EXPERIMENTS.length);
-        ArrayList<ArrayList<Double>> allAvgProcessed = new ArrayList<>(EXPERIMENTS.length);
-        ArrayList<ArrayList<Double>> allImprovementRates = new ArrayList<>(EXPERIMENTS.length);
         for (Params experiment : EXPERIMENTS) {
-            ArrayList<Double> avgLength = new ArrayList<>(aStars.size());
-            ArrayList<Double> avgProcessed = new ArrayList<>(aStars.size());
-            ArrayList<Double> improvementRate = new ArrayList<>(aStars.size());
-            for (int i = 0; i < aStars.size(); i++) {
+            System.out.println("\n\nExperiment - " + experiment.description);
+            //admissible setup
+            ArrayList<Double> avgLength = new ArrayList<>(aStarsAdmissible.size());
+            ArrayList<Double> avgProcessed = new ArrayList<>(aStarsAdmissible.size());
+            ArrayList<Double> improvementRate = new ArrayList<>(aStarsAdmissible.size());
+            ArrayList<Double> avgExpansionRate = new ArrayList<>(aStarsAdmissible.size());
+            for (int i = 0; i < aStarsAdmissible.size(); i++) {
                 avgLength.add(0.);
                 avgProcessed.add(0.);
+                avgExpansionRate.add(0.);
             }
-            for (int i = 0; i < N; i++) {
+            // non admissible setup
+            ArrayList<Integer> solutionsFound = new ArrayList<>(aStarsKManhattans.size());
+            ArrayList<Double> avgProcessedK = new ArrayList<>(aStarsKManhattans.size());
+            ArrayList<Double> avgLengthK = new ArrayList<>(aStarsKManhattans.size());
+            ArrayList<ArrayList<Double>> errors = new ArrayList<>(aStarsKManhattans.size());
+            for (int i = 0; i < aStarsKManhattans.size(); i++) {
+                solutionsFound.add(0);
+                avgProcessedK.add(0.);
+                avgLengthK.add(0.);
+                errors.add(new ArrayList<>(N));
+            }
+
+            for (int i = 0; i < N; i++) { // run N times experiment
                 GenerationResult generation = generateGrid(DFS, experiment, rng);
-                for (int j = 0; j < aStars.size(); j++) {
-                    MazeSolver.Result result = aStars.get(j).solve(generation.maze, generation.weights, SRC, DST, mockView);
+                int optimalLength = -1;
+                for (int j = 0; j < aStarsAdmissible.size(); j++) { // get admissible values
+                    MazeSolver.Result result = aStarsAdmissible.get(j).solve(generation.maze, generation.weights, SRC, DST, mockView);
+                    optimalLength = result.metadata().get(Keys.LENGTH);
                     avgLength.set(j, avgLength.get(j) + result.metadata().get(Keys.LENGTH) * 1. / N);
                     avgProcessed.set(j, avgProcessed.get(j) + result.metadata().get(Keys.NB_PROCESSED_VERTICES) * 1. / N);
+                    avgExpansionRate.set(j,avgExpansionRate.get(j) + result.metadata().get(Keys.LENGTH) * 1. / result.metadata().get(Keys.NB_PROCESSED_VERTICES) / N);
                     if (j == 0) {
                         improvementRate.add(1.);
                     } else {
                         improvementRate.add(avgLength.get(0) / avgLength.get(j));
                     }
                 }
+                for (int j = 0; j < aStarsKManhattans.size(); j++) { //get kmanhattans values
+                    MazeSolver.Result result = aStarsKManhattans.get(j).solve(generation.maze, generation.weights, SRC, DST, mockView);
+                    if (result.metadata().get(Keys.LENGTH) == optimalLength) {
+                        solutionsFound.set(j, solutionsFound.get(j) + 1);
+                    }
+                    avgLengthK.set(j, avgLengthK.get(j) + result.metadata().get(Keys.LENGTH) * 1. / N);
+                    errors.get(j).add(result.metadata().get(Keys.LENGTH) - avgLength.get(0));
+                    avgProcessedK.set(j, avgProcessedK.get(j) + result.metadata().get(Keys.NB_PROCESSED_VERTICES) * 1. / N);
+                }
             }
-            allAvgLengths.add(avgLength);
-            allAvgProcessed.add(avgProcessed);
-            allImprovementRates.add(improvementRate);
+            for (int j = 0; j < aStarsAdmissible.size(); j++) { // print admissible results
+                System.out.println("\nHeuristic " + j + ":");
+                System.out.println("Average length: " + avgLength.get(j));
+                System.out.println("Average processed vertices: " + avgProcessed.get(j));
+                System.out.println("Improvement rate (compared to H0): " + improvementRate.get(j));
+                System.out.println("Average expansion rate: " + avgExpansionRate.get(j));
+            }
+            for (int j = 0; j < aStarsKManhattans.size(); j++) { // print kmanattans results
+                System.out.println("\nHeuristic " + (j + aStarsAdmissible.size()) + ":");
+                System.out.println("Average length: " + avgLengthK.get(j));
+                System.out.println("Minimal Error:" + errors.get(j).stream().min(Double::compareTo)); //merci poa <3
+                System.out.println("Average Error:" + errors.get(j).stream().mapToDouble(Double::doubleValue).average());
+                System.out.println("Maximal Error:" + errors.get(j).stream().max(Double::compareTo));
+                System.out.println("Average processed vertices reduction (compared to H3): " + (avgProcessed.get(3) - avgProcessedK.get(j)));
+                System.out.println("Average processed vertices reduction % (compared to H3): " + (avgProcessed.get(3) - avgProcessedK.get(j)) / avgProcessed.get(3) * 100);
+            }
         }
-
     }
 
     /**
