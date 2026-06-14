@@ -172,11 +172,13 @@ public final class Experiment {
             for (int j = 0; j < aStarsKManhattans.size(); j++) { // print kmanattans results
                 System.out.println("\nHeuristic " + (j + aStarsAdmissible.size()) + ":");
                 System.out.println("Average length: " + avgLengthK.get(j));
-                System.out.println("Minimal Error:" + errors.get(j).stream().min(Double::compareTo)); //merci poa <3
-                System.out.println("Average Error:" + errors.get(j).stream().mapToDouble(Double::doubleValue).average());
-                System.out.println("Maximal Error:" + errors.get(j).stream().max(Double::compareTo));
-                System.out.println("Average processed vertices reduction (compared to H3): " + (avgProcessed.get(3) - avgProcessedK.get(j)));
-                System.out.println("Average processed vertices reduction % (compared to H3): " + (avgProcessed.get(3) - avgProcessedK.get(j)) / avgProcessed.get(3) * 100);
+                System.out.println("Average processed vertices: " + avgProcessedK.get(j));
+                System.out.println("Minimal Error:" + errors.get(j).stream().min(Double::compareTo).orElseThrow()); //merci poa <3
+                System.out.println("Average Error:" + errors.get(j).stream().mapToDouble(Double::doubleValue).average().orElseThrow());
+                System.out.println("Maximal Error:" + errors.get(j).stream().max(Double::compareTo).orElseThrow());
+                double reduction = avgProcessed.get(3) - avgProcessedK.get(j);
+                System.out.println("Average processed vertices reduction (compared to H3): " + reduction);
+                System.out.println("Average processed vertices reduction % (compared to H3): " + reduction / avgProcessed.get(3) * 100.0);
             }
         }
     }
