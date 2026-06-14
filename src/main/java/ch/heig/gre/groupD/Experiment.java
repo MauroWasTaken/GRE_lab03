@@ -158,7 +158,7 @@ public final class Experiment {
                         solutionsFound.set(j, solutionsFound.get(j) + 1);
                     }
                     avgLengthK.set(j, avgLengthK.get(j) + result.metadata().get(Keys.LENGTH) * 1. / N);
-                    errors.get(j).add(result.metadata().get(Keys.LENGTH) - avgLength.get(0));
+                    errors.get(j).add((double) (result.metadata().get(Keys.LENGTH) - optimalLength));
                     avgProcessedK.set(j, avgProcessedK.get(j) + result.metadata().get(Keys.NB_PROCESSED_VERTICES) * 1. / N);
                 }
             }
