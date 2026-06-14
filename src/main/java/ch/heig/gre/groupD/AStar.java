@@ -28,35 +28,42 @@ public final class AStar implements MazeSolver {
     return result;
   }
 
-  public static int[] getCordDelta(int source, int target, int minweigth,int gridWidth){
+  /**
+   * Get the delta of x and y cord between the source vertex and the target vertex
+   * @param source source vertex
+   * @param target target vertex
+   * @param gridWidth grid width
+   * @return [x delta, y delta]
+   */
+  public static int[] getCordDelta(int source, int target,int gridWidth){
     int[] sourceCords = AStar.getCord(source,gridWidth);
     int[] targetCords = AStar.getCord(target,gridWidth);
-    targetCords[0]=Math.abs(targetCords[0]-sourceCords[0]) * minweigth;
-    targetCords[1]=Math.abs(targetCords[1]-sourceCords[1])* minweigth;
+    targetCords[0]=Math.abs(targetCords[0]-sourceCords[0]);
+    targetCords[1]=Math.abs(targetCords[1]-sourceCords[1]);
     return targetCords;
   }
 
   public enum Heuristic {
     DIJKSTRA{
       @Override
-      int calc(final int source, final int target,final GridGraph2D grid,int minWeigth,double k) {
+      int calc(final int source, final int target, final GridGraph2D grid, int minWeigh, double k) {
         return 0;
       }
     },
     INFINITY_NORM{
       @Override
-      int calc(int source, int target, GridGraph2D grid,int minWeigth,double k) {
-        int[] cordDelta = AStar.getCordDelta(source,target,minWeigth,grid.width());
-        return Math.max(
+      int calc(int source, int target, GridGraph2D grid, int minWeigh, double k) {
+        int[] cordDelta = AStar.getCordDelta(source,target,grid.width());
+        return minWeigh * Math.max(
                 Math.abs(cordDelta[0]),Math.abs(cordDelta[1])
         );
       }
     },
     EUCLIDEAN_NORM{
       @Override
-      int calc(int source, int target, GridGraph2D grid,int minWeigth,double k) {
-        int[] cordDelta = AStar.getCordDelta(source,target,minWeigth,grid.width());
-        return (int)Math.round(
+      int calc(int source, int target, GridGraph2D grid, int minWeigh, double k) {
+        int[] cordDelta = AStar.getCordDelta(source,target,grid.width());
+        return minWeigh * (int)Math.round(
             Math.sqrt(
                     Math.pow(cordDelta[0],2) +
                             Math.pow(cordDelta[1],2)
@@ -66,20 +73,28 @@ public final class AStar implements MazeSolver {
     },
     MANHATTAN{
       @Override
-      int calc(int source, int target, GridGraph2D grid,int minWeigth,double k) {
-        int[] cordDelta = AStar.getCordDelta(source,target,minWeigth,grid.width());
-        return (cordDelta[0]) + (cordDelta[1]);
+      int calc(int source, int target, GridGraph2D grid, int minWeigh, double k) {
+        int[] cordDelta = AStar.getCordDelta(source,target,grid.width());
+        return minWeigh *  (cordDelta[0]) + (cordDelta[1]);
       }
     },
     K_MANHATTAN{
       @Override
-      int calc(int source, int target, GridGraph2D grid,int minWeigth,double k) {
-        return (int)Math.round(MANHATTAN.calc(source,target,grid,minWeigth,k)*k);
+      int calc(int source, int target, GridGraph2D grid, int minWeigh, double k) {
+        return (int)Math.round(MANHATTAN.calc(source,target,grid, minWeigh,k)*k);
       }
     };
 
-    abstract int calc(final int source, final int target,final GridGraph2D grid,int minWeigth,double k);
-
+    /**
+     *
+     * @param source source vertex
+     * @param target target vertex
+     * @param grid Grid
+     * @param minWeigh min weigh of edge
+     * @param k k scale (use only of Manhattan k)
+     * @return heristic
+     */
+    abstract int calc(final int source, final int target,final GridGraph2D grid,int minWeigh,double k);
   }
 
   /** Heuristique utilisée pour l'algorithme A*. */
@@ -111,93 +126,98 @@ public final class AStar implements MazeSolver {
     int[] v_distance= new int[grid.nbVertices()];
     int[] v_pred= new int[grid.nbVertices()];
     int[] v_heristic= new int[grid.nbVertices()];
-    boolean[] v_inQueue= new boolean[grid.nbVertices()];
+
+    boolean[] v_inQueue= new boolean[grid.nbVertices()];    // track if a given vertex is in the queue or not
+
+    int nVertexCompute=0;
+
+    PriorityQueue<Integer> priorityQueue = new PriorityQueue<Integer>(
+            grid.nbVertices(),
+            Comparator.comparingInt(a -> (v_distance[a] + v_heristic[a]))
+    );
 
 
+    // init
     int actualVertex = source;
-
-    distances.setLabel(actualVertex, 0);
-
-
-
-    // TODO : check if it's the good chose or not :[
-    int[] watingLists=new int[grid.nbVertices()];
-    int priorityQueueLength=0;
-
     for (int i = 0; i < grid.nbVertices(); i++) {
       v_distance[i]=Integer.MAX_VALUE;
       v_heristic[i]=Integer.MAX_VALUE;
     }
 
 
-    v_inQueue[actualVertex]=true;
-    v_heristic[actualVertex]=this.heuristic.calc(actualVertex, destination, grid,weights.minWeight(), this.kManhattan);;
+    // add source into the priority queue
+    v_heristic[actualVertex]=this.heuristic.calc(actualVertex, destination, grid,weights.minWeight(), this.kManhattan);
     v_distance[actualVertex]=0;
-    watingLists[priorityQueueLength]=source;
-    v_inQueue[priorityQueueLength]=true;
-    priorityQueueLength++;
+    priorityQueue.add(actualVertex);
+    v_inQueue[actualVertex]=true;
 
-    while (priorityQueueLength>0){
+    while (!priorityQueue.isEmpty()){
 
-      // get next vertex by priority (the smallest distance + heristic)
-      int minVertexindex = 0;
-      for (int i = 0; i < priorityQueueLength; i++) {
-          int a = watingLists[minVertexindex];
-          int b = watingLists[i];
+      // get actual vertex, since we can have multiple version of the same vertex
+      // we just need to check if  vertex is supposed to be in the queue
+      // priority can only been reduced, so we only care if they poll a vertex, and it's as been all ready
+      // consume, in that case we jus skip, the cool side reside in the complexity of polling, which
+      // is O(1), there for, theses extra n polling we dose to clean the heap are pretty cheap
+      // the number of wrong pulling depend on the number of updated vertex making about 1-3 wrong pulling
+      // pare pull in average. All things conciliar, we fought it was a good solution
+      do{
+        actualVertex = priorityQueue.poll();
+      }while (!v_inQueue[actualVertex] && !priorityQueue.isEmpty());
 
-          // compare distance + heristic
-          if ((v_distance[b] + v_heristic[b]) < (v_distance[a] + v_heristic[a])) {
-              minVertexindex=i;
-          }
-      }
+      if(!v_inQueue[actualVertex])continue;
 
-      // remove vertex from the waiting lists
-      actualVertex=watingLists[minVertexindex];
-      priorityQueueLength--;
-      // earse trick, since our array dosn't need to be sorted we can do that
-      watingLists[minVertexindex]=watingLists[priorityQueueLength];
       v_inQueue[actualVertex]=false;
 
-      distances.setLabel(actualVertex, v_distance[actualVertex]);
+      distances.setLabel(actualVertex, 1);
 
+      nVertexCompute++;
+
+      // if destination -> end
       if(actualVertex==destination){
         break;
       }
 
       for (int other : grid.neighbors(actualVertex)) {
-          int c = weights.get(other,actualVertex);
+        int c = weights.get(other,actualVertex);
 
-          // is distance
-          if (v_distance[other] > (v_distance[actualVertex] + c)) {
-              if (v_distance[other] == Integer.MAX_VALUE) {
-                  // cal heristic
-                  v_heristic[other] = this.heuristic.calc(other, destination, grid, weights.minWeight(),this.kManhattan);
-              }
-              v_distance[other] = v_distance[actualVertex] + c;
-              v_pred[other] = actualVertex;
+        // compute new distance of the other vertex
+        int newDistance = (v_distance[actualVertex] + c);
 
-              // add to prio queu if isn't
-              if (!v_inQueue[other]) {
-                  watingLists[priorityQueueLength] = other;
-                  v_inQueue[other] = true;
-                  priorityQueueLength++;
-              }
+        // if new distance shorter than the actual update
+        if (v_distance[other] > newDistance) {
+
+          // if the distance was unset compute the heristic
+          if (v_distance[other] == Integer.MAX_VALUE) {
+            // compute heristic
+            v_heristic[other] = this.heuristic.calc(other, destination, grid, weights.minWeight(),this.kManhattan);
           }
+          v_distance[other] = newDistance;
+          v_pred[other] = actualVertex;
+
+          // add into priot queue / update, since we track if a vertex is in the queue or not, we can simple add the vertex without update it
+          // to keep the addtion in the O(Log N)
+          priorityQueue.add(other);
+          v_inQueue[other]=true;
+        }
       }
     }
 
-    List<Integer> path = new ArrayList<>();
+    // compute path
+    List<Integer> path = new ArrayList<>(grid.nbVertices());
     int v = destination;
+    int pathLength = 0;
     while (v!=source){
+      pathLength+=weights.get(v,v_pred[v]);
       path.add(v);
       v=v_pred[v];
     }
 
-    // TODO META DATA
+    // meta data
     Metadata metadata = new Metadata();
-    metadata.put(Keys.LENGTH, path.size());
-    metadata.put(Keys.NB_PROCESSED_VERTICES, 0);
+    metadata.put(Keys.LENGTH, pathLength);
+    metadata.put(Keys.NB_PROCESSED_VERTICES, nVertexCompute);
 
+    // reverse to get the path in the correct order
     return new Result(path.reversed(), metadata);
   }
 }
