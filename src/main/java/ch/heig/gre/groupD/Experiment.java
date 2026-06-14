@@ -38,7 +38,7 @@ public final class Experiment {
      */
     private static final GridGraph2D TOPOLOGY;
 
-    private static final double[] K_MANHATTANS = {0, 0.5, 1, 2, 4, 6, 8};
+    private static final double[] K_MANHATTANS = {0.5, 2, 4, 6, 8};
 
     /**
      * Expériences à réaliser
@@ -123,6 +123,7 @@ public final class Experiment {
             for (int i = 0; i < aStarsAdmissible.size(); i++) {
                 avgLength.add(0.);
                 avgProcessed.add(0.);
+                improvementRate.add(0.);
                 avgExpansionRate.add(0.);
             }
             // non admissible setup
@@ -140,17 +141,19 @@ public final class Experiment {
             for (int i = 0; i < N; i++) { // run N times experiment
                 GenerationResult generation = generateGrid(DFS, experiment, rng);
                 int optimalLength = -1;
+                int processedH0 = -1;
                 for (int j = 0; j < aStarsAdmissible.size(); j++) { // get admissible values
                     MazeSolver.Result result = aStarsAdmissible.get(j).solve(generation.maze, generation.weights, SRC, DST, mockView);
                     optimalLength = result.metadata().get(Keys.LENGTH);
-                    avgLength.set(j, avgLength.get(j) + result.metadata().get(Keys.LENGTH) * 1. / N);
-                    avgProcessed.set(j, avgProcessed.get(j) + result.metadata().get(Keys.NB_PROCESSED_VERTICES) * 1. / N);
-                    avgExpansionRate.set(j,avgExpansionRate.get(j) + result.metadata().get(Keys.LENGTH) * 1. / result.metadata().get(Keys.NB_PROCESSED_VERTICES) / N);
+                    int processed = result.metadata().get(Keys.NB_PROCESSED_VERTICES);
                     if (j == 0) {
-                        improvementRate.add(1.);
-                    } else {
-                        improvementRate.add(avgLength.get(0) / avgLength.get(j));
+                        processedH0 = processed;
                     }
+                    avgLength.set(j, avgLength.get(j) + optimalLength * 1. / N);
+                    avgProcessed.set(j, avgProcessed.get(j) + processed * 1. / N);
+                    avgExpansionRate.set(j, avgExpansionRate.get(j) + (optimalLength * 1. / processed) / N);
+                    double reductionPourcentage = (processedH0 - processed) * 100.0 / processedH0;
+                    improvementRate.set(j, improvementRate.get(j) + reductionPourcentage / N);
                 }
                 for (int j = 0; j < aStarsKManhattans.size(); j++) { //get kmanhattans values
                     MazeSolver.Result result = aStarsKManhattans.get(j).solve(generation.maze, generation.weights, SRC, DST, mockView);
@@ -166,7 +169,7 @@ public final class Experiment {
                 System.out.println("\nHeuristic " + j + ":");
                 System.out.println("Average length: " + avgLength.get(j));
                 System.out.println("Average processed vertices: " + avgProcessed.get(j));
-                System.out.println("Improvement rate (compared to H0): " + improvementRate.get(j));
+                System.out.println("Improvement percentage (compared to H0): " + improvementRate.get(j));
                 System.out.println("Average expansion rate: " + avgExpansionRate.get(j));
             }
             for (int j = 0; j < aStarsKManhattans.size(); j++) { // print kmanattans results
