@@ -9,7 +9,7 @@ Average length: 480.4000000000003
 
 Average processed vertices: 63295.09000000001
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 0.0
 
 Average expansion rate: 0.007621558927009536
 
@@ -18,7 +18,7 @@ Average length: 480.4000000000003
 
 Average processed vertices: 16941.309999999998
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 73.24610244457304
 
 Average expansion rate: 0.02866258238675077
 
@@ -27,7 +27,7 @@ Average length: 480.4000000000003
 
 Average processed vertices: 14646.250000000002
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 76.85843661297444
 
 Average expansion rate: 0.03326387558294026
 
@@ -36,7 +36,7 @@ Average length: 480.4000000000003
 
 Average processed vertices: 16568.89
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 73.83078060379958
 
 Average expansion rate: 0.029350502751557726
 
@@ -120,11 +120,11 @@ Average processed vertices reduction % (compared to H3): 96.16021350856937
 #### Admissible Heuristics (H0 - H3)
 
 | Heuristic | Average length | Average processed vertices | Improvement percentage | Average expansion rate |
-|---|---|---|---|---|
-| 0 - DIJKSTRA | 480.4000000000003 | 63295.09000000001 | 1.0 | 0.007621558927009536 |
-| 1 - INFINITY_NORM | 480.4000000000003 | 16941.309999999998 | 1.0 | 0.02866258238675077 |
-| 2 - EUCLIDEAN_NORM | 480.4000000000003 | 14646.250000000002 | 1.0 | 0.03326387558294026 |
-| 3 - MANHATTAN | 480.4000000000003 | 16568.89 | 1.0 | 0.029350502751557726 |
+|---|---|---|---------------------|---|
+| 0 - DIJKSTRA | 480.4000000000003 | 63295.09000000001 | 0.0                 | 0.007621558927009536 |
+| 1 - INFINITY_NORM | 480.4000000000003 | 16941.309999999998 | 73.24610244457304                    | 0.02866258238675077 |
+| 2 - EUCLIDEAN_NORM | 480.4000000000003 | 14646.250000000002 | 76.85843661297444                 | 0.03326387558294026 |
+| 3 - MANHATTAN | 480.4000000000003 | 16568.89 | 73.83078060379958                | 0.029350502751557726 |
 
 #### k_Mahattans (H4 - H8)
 
@@ -143,7 +143,7 @@ Average length: 549.2
 
 Average processed vertices: 61928.78
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 0.0
 
 Average expansion rate: 0.008927529046760174
 
@@ -152,7 +152,7 @@ Average length: 549.2
 
 Average processed vertices: 19259.630000000005
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 68.57226837228721
 
 Average expansion rate: 0.028914334539540988
 
@@ -161,7 +161,7 @@ Average length: 549.2
 
 Average processed vertices: 17054.74
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 72.10613450651249
 
 Average expansion rate: 0.03274800435545333
 
@@ -170,7 +170,7 @@ Average length: 549.2
 
 Average processed vertices: 18867.17999999999
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 69.14140769306513
 
 Average expansion rate: 0.029607485442292143
 
@@ -254,11 +254,11 @@ Average processed vertices reduction % (compared to H3): 95.0587740192228
 #### Admissible Heuristics (H0 - H3)
 
 | Heuristic | Average length | Average processed vertices | Improvement percentage | Average expansion rate |
-|---|---|---|---|---|
-| 0 - DIJKSTRA | 549.2 | 61928.78 | 1.0 | 0.008927529046760174 |
-| 1 - INFINITY_NORM | 549.2 | 19259.630000000005 | 1.0 | 0.028914334539540988 |
-| 2 - EUCLIDEAN_NORM | 549.2 | 17054.74 | 1.0 | 0.03274800435545333 |
-| 3 - MANHATTAN | 549.2 | 18867.17999999999 | 1.0 | 0.029607485442292143 |
+|---|---|---|------------------------|---|
+| 0 - DIJKSTRA | 549.2 | 61928.78 | 0.0                    | 0.008927529046760174 |
+| 1 - INFINITY_NORM | 549.2 | 19259.630000000005 | 68.57226837228721      | 0.028914334539540988 |
+| 2 - EUCLIDEAN_NORM | 549.2 | 17054.74 | 72.10613450651249      | 0.03274800435545333 |
+| 3 - MANHATTAN | 549.2 | 18867.17999999999 | 69.14140769306513      | 0.029607485442292143 |
 
 #### k_Manhattans (H4 - H8)
 
@@ -277,7 +277,7 @@ Average length: 2078.22
 
 Average processed vertices: 82482.26
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 0.0
 
 Average expansion rate: 0.03042234639016741
 
@@ -286,7 +286,7 @@ Average length: 2078.22
 
 Average processed vertices: 56310.270000000004
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 32.834259944012715
 
 Average expansion rate: 0.045476649501540255
 
@@ -295,7 +295,7 @@ Average length: 2078.22
 
 Average processed vertices: 54204.98000000002
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 35.55286128394163
 
 Average expansion rate: 0.04737294779119359
 
@@ -304,7 +304,7 @@ Average length: 2078.22
 
 Average processed vertices: 55343.45999999999
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 33.999685713011814
 
 Average expansion rate: 0.046528337913008894
 
@@ -388,11 +388,11 @@ Average processed vertices reduction % (compared to H3): 74.33814221228668
 #### Admissible Heuristics (H0 - H3)
 
 | Heuristic | Average length | Average processed vertices | Improvement percentage | Average expansion rate |
-|---|---|---|---|---|
-| 0 - DIJKSTRA | 2078.22 | 82482.26 | 1.0 | 0.03042234639016741 |
-| 1 - INFINITY_NORM | 2078.22 | 56310.270000000004 | 1.0 | 0.045476649501540255 |
-| 2 - EUCLIDEAN_NORM | 2078.22 | 54204.98000000002 | 1.0 | 0.04737294779119359 |
-| 3 - MANHATTAN | 2078.22 | 55343.45999999999 | 1.0 | 0.046528337913008894 |
+|---|---|---|------------------------|---|
+| 0 - DIJKSTRA | 2078.22 | 82482.26 | 0.0                    | 0.03042234639016741 |
+| 1 - INFINITY_NORM | 2078.22 | 56310.270000000004 | 32.834259944012715                   | 0.045476649501540255 |
+| 2 - EUCLIDEAN_NORM | 2078.22 | 54204.98000000002 | 35.55286128394163                    | 0.04737294779119359 |
+| 3 - MANHATTAN | 2078.22 | 55343.45999999999 | 33.999685713011814                   | 0.046528337913008894 |
 
 #### k_Mahattans (H4 - H8)
 
@@ -411,7 +411,7 @@ Average length: 2432.1099999999997
 
 Average processed vertices: 82707.64
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 0.0
 
 Average expansion rate: 0.03697478651840247
 
@@ -420,7 +420,7 @@ Average length: 2432.1099999999997
 
 Average processed vertices: 57876.83
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 30.31759726829282
 
 Average expansion rate: 0.0531214201533274
 
@@ -429,7 +429,7 @@ Average length: 2432.1099999999997
 
 Average processed vertices: 55763.49
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 32.81298590667417
 
 Average expansion rate: 0.055276214194735745
 
@@ -438,7 +438,7 @@ Average length: 2432.1099999999997
 
 Average processed vertices: 56755.54
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 31.278389595464283
 
 Average expansion rate: 0.054348829401251665
 
@@ -522,11 +522,11 @@ Average processed vertices reduction % (compared to H3): 67.33224633225234
 #### Admissible Heuristics (H0 - H3)
 
 | Heuristic | Average length | Average processed vertices | Improvement percentage | Average expansion rate |
-|---|---|---|---|---|
-| 0 - DIJKSTRA | 2432.1099999999997 | 82707.64 | 1.0 | 0.03697478651840247 |
-| 1 - INFINITY_NORM | 2432.1099999999997 | 57876.83 | 1.0 | 0.0531214201533274 |
-| 2 - EUCLIDEAN_NORM | 2432.1099999999997 | 55763.49 | 1.0 | 0.055276214194735745 |
-| 3 - MANHATTAN | 2432.1099999999997 | 56755.54 | 1.0 | 0.054348829401251665 |
+|---|---|---|------------------------|---|
+| 0 - DIJKSTRA | 2432.1099999999997 | 82707.64 | 0.0                    | 0.03697478651840247 |
+| 1 - INFINITY_NORM | 2432.1099999999997 | 57876.83 | 30.31759726829282      | 0.0531214201533274 |
+| 2 - EUCLIDEAN_NORM | 2432.1099999999997 | 55763.49 | 32.81298590667417      | 0.055276214194735745 |
+| 3 - MANHATTAN | 2432.1099999999997 | 56755.54 | 31.278389595464283     | 0.054348829401251665 |
 
 #### k_Mahattans (H4 - H8)
 
@@ -545,7 +545,7 @@ Average length: 3642.050000000001
 
 Average processed vertices: 68642.53000000001
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 0.0
 
 Average expansion rate: 0.05793210563614967
 
@@ -554,7 +554,7 @@ Average length: 3642.050000000001
 
 Average processed vertices: 55448.53
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 18.89553223009149
 
 Average expansion rate: 0.07184339819696013
 
@@ -563,7 +563,7 @@ Average length: 3642.050000000001
 
 Average processed vertices: 54277.58
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 20.613526690395876
 
 Average expansion rate: 0.07342475371565509
 
@@ -572,7 +572,7 @@ Average length: 3642.050000000001
 
 Average processed vertices: 54966.090000000004
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 19.634342863699484
 
 Average expansion rate: 0.07250966767859139
 
@@ -656,11 +656,11 @@ Average processed vertices reduction % (compared to H3): 65.97027367236782
 #### Admissible Heuristics (H0 - H3)
 
 | Heuristic | Average length | Average processed vertices | Improvement percentage | Average expansion rate |
-|---|---|---|---|---|
-| 0 - DIJKSTRA | 3642.050000000001 | 68642.53000000001 | 1.0 | 0.05793210563614967 |
-| 1 - INFINITY_NORM | 3642.050000000001 | 55448.53 | 1.0 | 0.07184339819696013 |
-| 2 - EUCLIDEAN_NORM | 3642.050000000001 | 54277.58 | 1.0 | 0.07342475371565509 |
-| 3 - MANHATTAN | 3642.050000000001 | 54966.090000000004 | 1.0 | 0.07250966767859139 |
+|---|---|---|------------------------|---|
+| 0 - DIJKSTRA | 3642.050000000001 | 68642.53000000001 | 0.0                    | 0.05793210563614967 |
+| 1 - INFINITY_NORM | 3642.050000000001 | 55448.53 | 18.89553223009149      | 0.07184339819696013 |
+| 2 - EUCLIDEAN_NORM | 3642.050000000001 | 54277.58 | 20.613526690395876     | 0.07342475371565509 |
+| 3 - MANHATTAN | 3642.050000000001 | 54966.090000000004 | 19.634342863699484                    | 0.07250966767859139 |
 
 #### k_Mahattans (H4 - H8)
 
@@ -679,7 +679,7 @@ Average length: 11192.930000000002
 
 Average processed vertices: 85736.76999999999
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 0.0
 
 Average expansion rate: 0.15987593771405303
 
@@ -688,7 +688,7 @@ Average length: 11192.930000000002
 
 Average processed vertices: 78388.33000000003
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 8.611248490817875
 
 Average expansion rate: 0.17601147674402734
 
@@ -697,7 +697,7 @@ Average length: 11192.930000000002
 
 Average processed vertices: 77632.81000000001
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 9.587473743995712
 
 Average expansion rate: 0.17783187490299282
 
@@ -706,7 +706,7 @@ Average length: 11192.930000000002
 
 Average processed vertices: 77964.21000000004
 
-Improvement percentage (compared to H0): 1.0
+Improvement percentage (compared to H0): 9.251420264866699
 
 Average expansion rate: 0.1770067045618547
 
@@ -790,11 +790,11 @@ Average processed vertices reduction % (compared to H3): 36.39377606724935
 #### Admissible Heuristics (H0 - H3)
 
 | Heuristic | Average length | Average processed vertices | Improvement percentage | Average expansion rate |
-|---|---|---|---|---|
-| 0 - DIJKSTRA | 11192.930000000002 | 85736.76999999999 | 1.0 | 0.15987593771405303 |
-| 1 - INFINITY_NORM | 11192.930000000002 | 78388.33000000003 | 1.0 | 0.17601147674402734 |
-| 2 - EUCLIDEAN_NORM | 11192.930000000002 | 77632.81000000001 | 1.0 | 0.17783187490299282 |
-| 3 - MANHATTAN | 11192.930000000002 | 77964.21000000004 | 1.0 | 0.1770067045618547 |
+|---|---|---|------------------------|---|
+| 0 - DIJKSTRA | 11192.930000000002 | 85736.76999999999 | 0.0                    | 0.15987593771405303 |
+| 1 - INFINITY_NORM | 11192.930000000002 | 78388.33000000003 | 8.611248490817875      | 0.17601147674402734 |
+| 2 - EUCLIDEAN_NORM | 11192.930000000002 | 77632.81000000001 | 9.587473743995712      | 0.17783187490299282 |
+| 3 - MANHATTAN | 11192.930000000002 | 77964.21000000004 | 9.251420264866699      | 0.1770067045618547 |
 
 #### k_Mahattans (H4 - H8)
 
@@ -825,6 +825,7 @@ En fonction du nombre de K, l'algorithme A* devient de plus en plus efficace ave
 Nous avons aussi remarqué que dans les deux derniers experiments, la marge d'erreur en moyenne des different k-manhattan baisse énormement, rendant du coup K=8 le meilleur choix niveau performances/temps.
 Le meilleur compremis reste parcontre K=2, qui ce degrade très peu en terme de qualité de solution (au point ou il trouve le chemin optimal dans les 2 derniers experiments) tout en réduisant considérablement le nombre de sommets traités.
 
+###### Moyens d'erreur par K
 | Expérience | 0.5 | 1 | 2 | 4 | 6 | 8 |
 |---|---:|---:|---:|---:|---:|---:|
 | Ex1 | 0 | 0 | 44.48 | 136.16 | 168.76 | 179.44 |
@@ -835,6 +836,7 @@ Le meilleur compremis reste parcontre K=2, qui ce degrade très peu en terme de 
 | Ex6 | 0 | 0 | 0 | 0.89 | 3.47 | 9.89 |
 | **Avg** | **0** | **0** | **11.12666667** | **50.27** | **73.99833333** | **110.2366667** |
 
+###### Nombre de sommets traités par K
 | Expérience | 0.5 | 1 | 2 | 4 | 6 | 8 |
 |---|---:|---:|---:|---:|---:|---:|
 | Ex1 | 31894.07 | 16568.89 | 3180.79 | 895.46 | 685.05 | 636.21 |
@@ -846,7 +848,27 @@ Le meilleur compremis reste parcontre K=2, qui ce degrade très peu en terme de 
 | **Total** | **328942.79** | **295153.09** | **204700.90** | **144691.27** | **119941.76** | **102606.30** |
 
 
-## La perte d’optimalité observée en utilisant H4 avec K > 1 est-elle uniforme selon les jeuxde paramètres, ou certains profils de graphe semblent-ils plus robustes à l’augmentation de K ? Avez-vous une explication intuitive de ce phénomène ?
+## La perte d’optimalité observée en utilisant H4 avec K > 1 est-elle uniforme selon les jeux de paramètres, ou certains profils de graphe semblent-ils plus robustes à l’augmentation de K ? Avez-vous une explication intuitive de ce phénomène ?
+
+![graph](./graphAvgErrByK.png)
+
+Non, on peut clairement distinguer 3 groupes, chacun ayant sa propre tendance :
+
+- Groupe 1 : Expériences 1 (relief très peu dense, labyrinthe très ouvert) et 2 (relief très peu dense, labyrinthe assez ouvert)
+- Groupe 2 : Expériences 3 (relief très peu dense, labyrinthe peu ouvert) et 4 (relief dense, labyrinthe moyennement ouvert)
+- Groupe 3 : Expériences 5 (relief très dense, labyrinthe moyennement ouvert) et 6 (relief très dense et fortement pondéré, labyrinthe moyennement ouvert)
+
+On peut voir que le groupe 3 est plutôt résistant à l'augmentation de K, ainsi que le groupe 1 qui, même s'il possède une moyenne d'erreur élevée, voit ses moyennes d'erreur se stabiliser.
+
+Cela pourrait venir de l'ouverture du labyrinthe et de son relief. Plus un graphe est ouvert, plus le nombre de chemins possibles pour atteindre la destination augmente. Cette facteur seul ne changerait rien, mais le relief entre également en jeu. Plus celui-ci est élevé, plus les chemins directs ont de chances de ne plus être optimaux. Et plus K est élevé, plus A* vas ignorer les relièfes et va privilégier les chemins directs peut import les montages a traversé.
+
+Ce raisonnement pourrais expliquer pourquoi le groupe 3 est le moins affecté, celui-ci possède un labyrinthe moins ouvert et donc moins de chemins possibles. Il y a ainsi moins de possibilités de contourner les reliefs élevés, ce qui fait que le chemin optimal va sûrement les traverser.
+
+Pour le groupe 1, celui-ci ne possède pas de très grands reliefs mais des labyrinthes plutôt ouverts. Cela fait que, dès qu'on commence à traverser les reliefs, le taux d'erreur augmente rapidement au début. Mais, vu que ceux-ci ne sont pas très élevés, l'augmentation de K ne change pas vraiment le chemin emprunté.
+
+Pour le groupe 2, les labyrinthes sont toujours plutôt ouverts mais le relief est plus élevé. Cela fait que plus K est élevé, plus le chemin ignorera les reliefs élevés qu'il respectait avant, ce qui fera grimper la moyenne d'erreur.
+
+
 
 # Ai disclamer
 Nous avons utilisé de l'ia pour formater la sortie des résultats et générer les tableaux de synthèse. Cependant les reponses aux questiosns ont été faites par nous memes.
